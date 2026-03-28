@@ -42,16 +42,27 @@ func HelperTestSort(t *testing.T, s Sorter[int]) {
 }
 
 func HelperBenchmarkSort(b *testing.B, s Sorter[int]) {
-	arr := make([]int, 1_000)
-
-	for i := 0; i < 1_000; i++ {
-		arr[i] = rand.Intn(1_000_000)
-	}
+	r := rand.New(rand.NewSource(0)) // Seeding so all Sorts get same array
 
 	b.ReportAllocs()
 	b.ResetTimer()
 
 	for b.Loop() {
+		b.StopTimer()
+		arr := genRandomArr(r)
+		b.StartTimer()
+
 		s.Sort(arr)
 	}
+}
+
+func genRandomArr(r *rand.Rand) []int {
+	size := 10_000
+	arr := make([]int, size)
+
+	for i := 0; i < size; i++ {
+		arr[i] = r.Intn(1_000_000)
+	}
+
+	return arr
 }
