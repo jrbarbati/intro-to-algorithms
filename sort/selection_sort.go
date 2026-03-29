@@ -4,6 +4,7 @@ import "cmp"
 
 type Selection[T cmp.Ordered] struct{}
 
+// Sort sorts items using selection sort algorithm.
 func (Selection[T]) Sort(items []T) []T {
 	for i := 0; i < len(items)-1; i++ {
 		for j := i + 1; j < len(items); j++ {
